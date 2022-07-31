@@ -30,16 +30,18 @@ public class YamlAnnotations {
   public @interface ListValue {
     String[] value();
   }
-
+  
   @Target(ElementType.FIELD)
   @Retention(RetentionPolicy.RUNTIME)
   public @interface Comment {
     String[] value();
   }
   
-  
-  
   @Target(ElementType.FIELD)
   @Retention(RetentionPolicy.RUNTIME)
   public @interface Ignore {}
+  
+  @Target(ElementType.FIELD)
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface Nullable {}
 }

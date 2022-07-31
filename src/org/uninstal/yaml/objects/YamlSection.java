@@ -1,7 +1,5 @@
 package org.uninstal.yaml.objects;
 
-import org.uninstal.yaml.YamlStrings;
-
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class YamlSection extends YamlObject {
   @Override
   public void create(FileWriter writer, int deep) throws Exception {
     if(!key.isEmpty())
-      writer.write(YamlStrings.repeat(" ", deep * 2) + key + ": \n");
+      writer.write(repeat(" ", deep * 2) + key + ": \n");
     for(YamlObject object : objects)
       object.create(writer, key.isEmpty() ? deep : deep + 1);
   }

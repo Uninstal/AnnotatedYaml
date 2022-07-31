@@ -1,12 +1,12 @@
 package org.uninstal.yaml.test;
 
 public class Main {
-
+  
   public static void main(String[] args) {
     
-    Config config = new Config();
+    Config config = new Config("E:\\Programs\\Eclipse\\saves 3\\Yaml", "test");
     config.setPrefix("[Test] ");
-    config.create("E:\\Programs\\Eclipse\\saves 3\\Yaml", "test");
-    System.out.println(Config.TEST);
+    config.loadOrCreate();
+    config.debug();
   }
 }

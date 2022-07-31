@@ -1,6 +1,6 @@
 package org.uninstal.yaml;
 
-import org.uninstal.yaml.objects.YamlRow;
+import org.uninstal.yaml.objects.YamlObject;
 import org.uninstal.yaml.objects.YamlSection;
 
 import java.io.FileWriter;
@@ -9,17 +9,17 @@ import java.util.*;
 public class YamlBuilder {
   
   private final YamlSection main;
-  private final List<YamlRow> rows;
+  private final List<YamlObject> rows;
   
-  public YamlBuilder(List<YamlRow> rows) {
+  public YamlBuilder(List<YamlObject> rows) {
     this.main = new YamlSection("");
     this.rows = rows;
   }
   
   public void build(FileWriter writer) {
     Map<String, YamlSection> temp = buildSections();
-
-    for(YamlRow row : rows)
+    
+    for(YamlObject row : rows)
       temp.get(row.getPath()).addObject(row);
     
     try {
@@ -34,12 +34,13 @@ public class YamlBuilder {
     Map<String, YamlSection> sections = new HashMap<>();
     sections.put("", main);
     
-    for(YamlRow row : rows) {
+    for(YamlObject row : rows) {
       
       String path = row.getPath();
       if(sections.containsKey(path))
         continue;
-            StringBuilder pathBuilder = new StringBuilder();
+      
+      StringBuilder pathBuilder = new StringBuilder();
       String[] names = path.split("\\.");
 
       for(int i = 0; i < names.length; i++) {

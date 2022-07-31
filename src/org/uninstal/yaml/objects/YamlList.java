@@ -2,12 +2,12 @@ package org.uninstal.yaml.objects;
 
 import java.io.FileWriter;
 
-public class YamlRow extends YamlObject {
+public class YamlList extends YamlObject {
   
-  private final Object value;
+  private final String[] value;
   private final String[] comments;
-
-  public YamlRow(String path, Object value, String[] comments) {
+  
+  public YamlList(String path, String[] value, String[] comments) {
     super(path);
     this.value = value;
     this.comments = comments;
@@ -20,17 +20,14 @@ public class YamlRow extends YamlObject {
       for(String comment : comments)
         writer.write(indent + "# " + comment + " \n");
     }
-    
-    if(value.getClass().isArray()) {
-      writer.write(indent + key + ": " + " \n");
-      for(String line : (String[]) value) {
-        writer.write("  " + indent + "- '" + line + "' \n");
-      }
-    } else writer.write(indent + key + ": " + value + " \n");
+    writer.write(indent + key + ": " + " \n");
+    for(String line : value) {
+      writer.write("  " + indent + "- '" + line + "' \n");
+    }
   }
-
+  
   @Override
   public String toString() {
-    return "<ROW(" + key + ")>";
+    return "<LIST(" + key + ")>";
   }
 }

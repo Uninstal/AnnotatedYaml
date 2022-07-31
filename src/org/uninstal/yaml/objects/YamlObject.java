@@ -25,4 +25,18 @@ public abstract class YamlObject {
   }
 
   public abstract void create(FileWriter writer, int deep) throws Exception;
+
+  protected int amountOf(String line, char key) {
+    int temp = 0;
+    for(char ch : line.toCharArray())
+      if(ch == key) ++temp;
+    return temp;
+  }
+
+  protected String repeat(String key, int amount) {
+    StringBuilder builder = new StringBuilder();
+    for(int i = 0; i < amount; i++)
+      builder.append(key);
+    return builder.toString();
+  }
 }
