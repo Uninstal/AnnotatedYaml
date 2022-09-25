@@ -1,5 +1,7 @@
 package org.uninstal.yaml.objects;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.io.FileWriter;
 
 public class YamlRow extends YamlObject {
@@ -26,7 +28,12 @@ public class YamlRow extends YamlObject {
       for(String line : (String[]) value) {
         writer.write("  " + indent + "- '" + line + "' \n");
       }
-    } else writer.write(indent + key + ": " + value + " \n");
+    } else {
+      String toString = (String) value;
+      if(!NumberUtils.isNumber(toString) && !toString.equalsIgnoreCase("true") && !toString.equalsIgnoreCase("false"))
+        writer.write(indent + key + ": '" + value + "' \n");
+      else writer.write(indent + key + ": " + value + " \n");
+    }
   }
 
   @Override

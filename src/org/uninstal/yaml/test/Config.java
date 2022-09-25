@@ -35,6 +35,10 @@ public class Config extends Yaml {
     YamlSerializers.register("test", (YamlSerializer) key -> key.replace(" not", ""));
     YamlSerializers.register("test2", (YamlListSerializer<Integer>) keys -> 
       Arrays.stream(keys).map(Integer::parseInt).collect(Collectors.toList()));
+    
+    setDefault("test33.31", new String[] { "123123", "12312312" });
+    setDefault("test33.test.i", "44");
+    setDefault("test33.test.k", "привет");
   }
 
   @Override

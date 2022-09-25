@@ -1,3 +1,10 @@
+test33: 
+  test: 
+    i: 44 
+    k: 'привет' 
+  31:  
+    - '123123' 
+    - '12312312' 
 list: 
   test:  
     - 'test1' 
@@ -19,8 +26,8 @@ test:
   value1: -900 
   # Value num 2 
   value2: 900 
-test67: test not work 
-key: value1 
-key2: value1 
-key3: value1 
-key4: value1 
+test67: 'test not work' 
+key: 'value1' 
+key2: 'value1' 
+key3: 'value1' 
+key4: 'value1' 

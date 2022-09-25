@@ -1,6 +1,7 @@
 package org.uninstal.yaml;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.uninstal.yaml.objects.YamlList;
 import org.uninstal.yaml.objects.YamlObject;
 import org.uninstal.yaml.YamlAnnotations.*;
 import org.uninstal.yaml.objects.YamlRow;
@@ -16,6 +17,7 @@ public abstract class Yaml {
   
   protected final File folder;
   protected final String fileName;
+  protected final List<YamlObject> defaults;
   
   protected File file;
   protected YamlConfiguration yaml;
@@ -26,11 +28,24 @@ public abstract class Yaml {
     this.fileName = fileName;
     this.folder = new File(folder);
     this.file = new File(folder, fileName + ".yml");
+    this.defaults = new ArrayList<>();
     this.onPrepare();
   }
 
   public void setPrefix(String prefix) {
     this.prefix = prefix;
+  }
+  
+  public void setDefault(String path, String value, String... comments) {
+    this.defaults.add(new YamlRow(path, value, comments));
+  }
+  
+  public void setDefault(String path, String[] values, String[] comments) {
+    this.defaults.add(new YamlList(path, values, comments));
+  }
+
+  public void setDefault(String path, String[] values) {
+    this.defaults.add(new YamlList(path, values, new String[0]));
   }
 
   public void onPrepare() {}
@@ -47,8 +62,8 @@ public abstract class Yaml {
     
     deleteFile();
     createFile();
-
-    List<YamlObject> rows = new ArrayList<>();
+    
+    List<YamlObject> rows = new ArrayList<>(defaults);
     for(Field field : getClass().getDeclaredFields()) {
       if(field.isAnnotationPresent(Ignore.class))
         continue;
@@ -93,6 +108,7 @@ public abstract class Yaml {
     
     loadTime = System.currentTimeMillis() - start;
     log("File \"" + fileName + ".yml\" created in " + loadTime + " ms");
+    yaml = YamlConfiguration.loadConfiguration(file);
     onLoad();
   }
   
@@ -109,10 +125,10 @@ public abstract class Yaml {
         log("[ERROR] Path for " + field.getName() + " is unspecified.");
         continue;
       }
-
+      
       String path = pathAnnotation.value();
       Object value = getValue(path);
-
+      
       if(value == null) {
         if(!field.isAnnotationPresent(Nullable.class))
           log("[ERROR] Value for " + field.getName() + " is unspecified.");

@@ -33,7 +33,7 @@ public class YamlSerializers {
       else return null;
     } else {
       String toString = (String) value;
-      if(target.equals(String.class)) return toString;
+      if(target.equals(String.class)) return toString.contains("&") ? toString.replace("&", "§") : toString;
       else if(target.equals(int.class)) return Integer.parseInt(toString);
       else if(target.equals(long.class)) return Long.parseLong(toString);
       else if(target.equals(double.class)) return Double.parseDouble(toString);
